@@ -4,7 +4,7 @@ import Image from 'next/image'
 export default function Home() {
   return (
     <div className=''>
-      <div className='w-full h-14 bg-white px-3 py-1 flex justify-between'>
+      <div className='w-full h-14 bg-white dark:bg-zinc-900 px-3 py-1 flex justify-between'>
         <div className='my-auto'>
           <p className='text-xl font-bold'>Dashboard</p>
           <p className='text-sm'>View</p>

@@ -1,3 +1,4 @@
+import Providers from './Providers'
 import SideNavigation from './SideNavigation'
 import './globals.css'
 import type { Metadata } from 'next'
@@ -15,10 +16,12 @@ export default function RootLayout({
   return (
     <html className='w-full h-full' lang="en">
       <body className='w-full h-full flex'>
-        <SideNavigation />
-        <div className='w-full h-full bg-zinc-200'>
-          {children}
-        </div>
+        <Providers>
+          <SideNavigation />
+          <div className='w-full h-full bg-zinc-200 dark:bg-zinc-950'>
+            {children}
+          </div>
+        </Providers>
       </body>
     </html>
   )

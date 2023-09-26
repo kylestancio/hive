@@ -1,18 +1,25 @@
 'use client'
 
 import { Button } from '@/components/ui/button';
-import { Building2, LayoutDashboard, MoreVertical, SidebarCloseIcon, UserSquare } from 'lucide-react';
+import { Building2, LayoutDashboard, MoonStar, MoreVertical, SidebarCloseIcon, Sun, SunMoon, UserSquare } from 'lucide-react';
+import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 export default function SideNavigation() {
 
   const router = useRouter()
+  const { theme, setTheme } = useTheme()
 
+  const [mounted, setMounted] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   return (
-    <div className='w-[300px] flex flex-col border-r border-r-zinc-300'>
+    <div className='w-[300px] flex flex-col border-r bg-white dark:bg-zinc-900 border-r-zinc-300 dark:border-r-zinc-800'>
       <div className='mb-5 p-7'>
         <div className='flex justify-between'>
           <h1 className='text-4xl font-black'>HIVE</h1>
@@ -36,6 +43,13 @@ export default function SideNavigation() {
             <p>Username</p>
           </div>
           <div className='my-auto'>
+            { !mounted ? 
+              <Button variant={'ghost'} size={'icon'} disabled><SunMoon /></Button>
+              :
+              <Button variant={'ghost'} size={'icon'} onClick={()=>setTheme(theme==='dark'?'light':'dark')}>
+                { theme==='light' ? <MoonStar /> : <Sun />}
+              </Button>  
+            }
             <Button variant={'ghost'} size={'icon'}><MoreVertical /></Button>
           </div>
         </div>
