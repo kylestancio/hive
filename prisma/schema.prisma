@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String      @id @unique @default(cuid())
+  status              UserStatus  @default(INACTIVE)
+  roles               UserRoles[] @default([USER])
+  fullName            String
+  username            String      @unique
+  password            String
+  primaryEmail        String      @unique
+  secondaryEmail      String?
+  basicInformation    Json?
+  SuppliersCreated    Supplier[]  @relation("SupplierCreator")
+  SuppliersL1Approved Supplier[]  @relation("SupplierApproverL1")
+  SuppliersL2Approved Supplier[]  @relation("SupplierApproverL2")
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @default(now()) @updatedAt
+}
+
+model Supplier {
+  id                 String                  @id @unique @default(cuid())
+  Status             SupplierStatus          @default(L1APPROVALREQUIRED)
+  name               String                  @unique
+  country            String
+  primaryAddress     String
+  secondaryAddress   String?
+  primaryPhone       String
+  secondaryPhone     String?
+  primaryEmail       String
+  secondaryEmail     String?
+  basicDetails       Json?
+  bankingDetails     Json
+  createdByUser      User                    @relation("SupplierCreator", fields: [createdByUserId], references: [id])
+  createdByUserId    String
+  ApproverL1         User?                   @relation("SupplierApproverL1", fields: [approverL1UserId], references: [id])
+  approverL1UserId   String?
+  ApproverL1Status   SupplierApprovalStatus?
+  approverL1Comments String?
+  ApproverL2         User?                   @relation("SupplierApproverL2", fields: [approverL2UserId], references: [id])
+  approverL2UserId   String?
+  ApproverL2Status   SupplierApprovalStatus?
+  approverL2Comments String?
+  createdAt          DateTime                @default(now())
+  updatedAt          DateTime                @default(now()) @updatedAt
+}
+
+enum UserRoles {
+  SUPERADMIN
+  USER_MANAGE
+  USER_CREATE
+  SUPPLIER_MANAGE
+  SUPPLIER_CREATE
+  APPROVER_L1
+  APPROVER_L2
+  APPROVER_L3
+  USER
+}
+
+enum SupplierApprovalStatus {
+  APPROVED
+  DENIED
+  PROCESSING
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  ONBOARDING
+}
+
+enum SupplierStatus {
+  L1APPROVALREQUIRED
+  L1APPROVALDENIED
+  L2APPROVALREQUIRED
+  L2APPROVALDENIED
+  ACTIVE
+  INACTIVE
+}
