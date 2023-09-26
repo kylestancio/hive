@@ -18,7 +18,7 @@ export async function POST(req: NextRequest){
     })
     return NextResponse.json({status: 'ok', message: 'User created successfully'})
   }catch(err){
-    console.log(err)
+    console.error(err)
     return NextResponse.error()
   }
 }
