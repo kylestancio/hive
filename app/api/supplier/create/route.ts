@@ -38,6 +38,7 @@ export async function POST(req: NextRequest){
           bankCountry: body.bankCountry,
           bankBranch: body.bankBranch
         },
+        ApproverL1Status: "PROCESSING",
         createdByUserId: user.id
       }
     })
