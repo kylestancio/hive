@@ -9,11 +9,15 @@ import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
 import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
+import { Button } from "@/components/ui/button";
+import { Eye } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function SuppliersDataTable({rowData, className}:{rowData:Supplier[], className?: string}) {
 
   const gridRef = useRef<AgGridReact<Supplier>>(null);
   const { theme } = useTheme();
+  const router = useRouter();
 
   const gridOptions: GridOptions<Supplier> = {
     rowData: rowData,
@@ -69,6 +73,21 @@ export default function SuppliersDataTable({rowData, className}:{rowData:Supplie
       {
         field: 'secondaryEmail'
       },
+      { headerName: '',
+        width: 80,
+        cellClass: 'p-0',
+        pinned: 'right',
+        cellRenderer: (props:ICellRendererParams<Supplier>) => {
+          return (
+            <Button 
+              size={"icon"} 
+              variant={'ghost'} 
+              onClick={()=>router.push(`${process.env.NEXT_PUBLIC_NEXT_URL}/suppliers/view/${props.data?.id}`)}>
+              <Eye />
+            </Button>
+          )
+        }  
+      }
     ],
   }
 
