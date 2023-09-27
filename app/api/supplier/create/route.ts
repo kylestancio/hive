@@ -1,6 +1,8 @@
 import prisma from "@/lib/prisma";
 import { Supplier } from "@prisma/client";
+import { getServerSession, Session } from "next-auth";
 import {type NextRequest, NextResponse } from "next/server";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 interface ISupplierExtended extends Supplier{
   bankAccountNumber: string
@@ -13,12 +15,10 @@ interface ISupplierExtended extends Supplier{
 
 export async function POST(req: NextRequest){
 
-  const body:ISupplierExtended = await req.json()
+  const session = await getServerSession(authOptions)
+  const { user }:Session = session;
 
-  // const session = getServerSession(authOptions)
-  const user = {
-    id: "clmzqifln0002uvjctip8w2ri"
-  }
+  const body:ISupplierExtended = await req.json()
 
   try{
     await prisma.supplier.create({
