@@ -2,11 +2,13 @@
 
 import { Button } from '@/components/ui/button';
 import { Building2, LayoutDashboard, MoonStar, MoreVertical, SidebarCloseIcon, Sun, SunMoon, UserSquare } from 'lucide-react';
+import { Session } from 'next-auth';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 
-export default function SideNavigation() {
+
+export default function SideNavigation({user}:Session) {
 
   const router = useRouter()
   const { theme, setTheme } = useTheme()
@@ -40,7 +42,7 @@ export default function SideNavigation() {
             {/* IMAGE CONTAINER */}
           </div>
           <div className='grow my-auto'>
-            <p>Username</p>
+            <p>{user.fullName}</p>
           </div>
           <div className='my-auto'>
             { !mounted ? 
