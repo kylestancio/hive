@@ -34,7 +34,7 @@ export default function SuppliersContainer() {
         </div>
       </div>
       { !rowData && 
-        <div className='w-full h-full flex'>
+        <div className='w-full h-[calc(100%-3.5rem)] flex'>
           <div className='m-auto'>
             <h1 className='text-center text-4xl font-black'><Loader2 size={30} className='animate-spin inline me-3' />Loading Data...</h1>
           </div>
