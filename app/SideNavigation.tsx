@@ -6,6 +6,16 @@ import { Session } from 'next-auth';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { signOut } from 'next-auth/react';
+
 
 
 export default function SideNavigation({user}:Session) {
@@ -52,7 +62,17 @@ export default function SideNavigation({user}:Session) {
                 { theme==='light' ? <MoonStar /> : <Sun />}
               </Button>  
             }
-            <Button variant={'ghost'} size={'icon'}><MoreVertical /></Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild><Button variant={'ghost'} size={'icon'}><MoreVertical /></Button></DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className='cursor-pointer'>Profile</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className='cursor-pointer text-red-500' onClick={()=>signOut()}>Logout</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            
           </div>
         </div>
         <p className='text-xs text-center'>Created by @kylestancio</p>
